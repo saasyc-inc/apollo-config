@@ -1,0 +1,11 @@
+{
+    "name": "apollo/config",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "杨益民",
+            "email": "744541711@qq.com"
+        }
+    ],
+    "require": {}
+}
