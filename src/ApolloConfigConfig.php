@@ -34,4 +34,9 @@ class ApolloConfigConfig
     {
 
     }
+
+    public static function get_default_namespace()
+    {
+//        return config();
+    }
 }
