@@ -8,22 +8,16 @@
             "email": "744541711@qq.com"
         }
     ],
-    "require": {},
+    "require": {
+        "yiche/simple-request": "1.0.0",
+        "yiche/json-to-arr-str":"2.0.0"
+    },
     "autoload": {
         "psr-4": {
             "ApolloConfig\\": "src/"
         }
     },
     "minimum-stability":"dev",
-    "repositories": {
-        "0": {
-            "type": "path",
-            "url": "/home/wwwroot/personal-repository/simple-request",
-            "options": {
-                "symlink": true
-            }
-        }
-    },
     "require-dev": {
         "simple-request/simple-request": "dev-master"
     }
