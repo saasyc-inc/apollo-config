@@ -8,41 +8,34 @@
 
 namespace ApolloConfig;
 
-use SimpleRequest\SimpleRequest;
+use ApolloConfig\Configs\ApolloConfigConfigInterface;
+use SimpleRequest\Exceptions\FailRequestException;
 
 class ApolloConfig
 {
-    public static function changeConnection($namespace, $id, $server)
-    {
+    private static $config_setting;
 
+    /**
+     * @param $key
+     * @return array
+     * @throws FailRequestException
+     */
+    public static function get($key)
+    {
+        $config_setting = self::$config_setting;
+
+        return ApolloConfigService::get($key, $config_setting);
     }
 
-    public static function get($key, $namespace, $app_id = null)
+    public static function setConfig(ApolloConfigConfigInterface $config)
     {
-        $domain = ApolloConfigConfig::get_domain();
-
-        $app_id = ApolloConfigConfig::get_appid($app_id);
-
-        $cluster_name = ApolloConfigConfig::get_cluster_name();
-
-        $path = sprintf("configfiles/json/%s/%s/%s", $app_id, $cluster_name, $namespace);
-
-        SimpleRequest::setRequestDomain($domain);
-
-        SimpleRequest::setRequestIllumination("请求阿波罗");
-
-        $info = SimpleRequest::json_get($path, []);
-
-        return $info[ $key ];
+        self::$config_setting = $config;
     }
 
-    public static function readFromCache()
+    public static function getAll()
     {
+        $config_setting = self::$config_setting;
 
-    }
-
-    public function writeToCache($namespace, $info)
-    {
-        
+        return ApolloConfigService::getAll($config_setting);
     }
 }

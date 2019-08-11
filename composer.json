@@ -9,16 +9,37 @@
         }
     ],
     "require": {
-        "yiche/simple-request": "1.0.0",
-        "yiche/json-to-arr-str":"2.0.0"
+        "yiche/json-to-arr-str":"2.0.0",
+        "yiche/simple-request": "dev-master",
+        "yiche/unify-redis": "dev-master"
     },
     "autoload": {
         "psr-4": {
             "ApolloConfig\\": "src/"
         }
     },
-    "minimum-stability":"dev",
-    "require-dev": {
-        "simple-request/simple-request": "dev-master"
-    }
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ApolloConfig\\ServiceProvider"
+            ]
+        }
+    },
+    "repositories": {
+        "3": {
+            "type": "path",
+            "url": "/home/wwwroot/personal-repository/simple-request",
+            "options": {
+                "symlink": true
+            }
+        },
+        "4": {
+            "type": "path",
+            "url": "/home/wwwroot/personal-repository/unify-redis",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
+    "minimum-stability":"dev"
 }

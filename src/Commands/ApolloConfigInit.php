@@ -9,6 +9,9 @@
 namespace ApolloConfig\Init;
 
 
+use ApolloConfig\ApolloConfig;
+use ApolloConfig\Configs\ApolloConfigConfigFactory;
+
 /**
  * when init
  * 0. check had init
@@ -19,21 +22,14 @@ namespace ApolloConfig\Init;
  * 4. override env
  * done
  */
-class ApolloInit
+class ApolloConfigInit
 {
     public static function main()
     {
-        self::check_had_init();
+        $config = ApolloConfigConfigFactory::getEnvConfig();
+
+        ApolloConfig::setConfig($config);
+
+        ApolloConfig::getAll();
     }
-
-    public static function check_had_init()
-    {
-        
-    }
-
-    public static function read_config()
-    {
-
-    }
-
 }

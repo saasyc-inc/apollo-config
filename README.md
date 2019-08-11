@@ -1,12 +1,45 @@
-### 为携程 Apollo 配置中心写的 laravel 客户端
+## 为携程 Apollo 配置中心写的 laravel 客户端
+
+###  需求说明
+
+1. 实现获取配置
+
+2. 兼容　laravel 的 env 配置  
+
+保证存储在　apollo 中namespace为env的信息同步到本地
+
+3. 定时更行配置 懒更新　只更新使用过的namespace
+
+###  调用
+
+when init
+ 0. check had init
+ 1. read apollo config (url app_id app_key)
+ 2. read env priviority
+ (if apollo and env have same configs in order to not influence old env  u can give a higer priviority to env still think about this)
+ 3. read config from apollo and write to config files
+ 4. override env
+ done
+
+
+when update
+ 3. read config from apollo and write to config files
+ 4. override env
+
+when read config
+    1. read from file
+    2. read from env
+    3. read from apollo (in order to get a new config in real time)
+
+when maintain config latest
+    1. crontab do update
+
+
 
 ```
-    放弃对原先 SapiConfig 的支持(sapi_config 中的表里的数据) 无法做到无缝迁移(成本不合适) 命名空间会不一样
-
 获取配置参数  ApolloConfig\ApolloConfig::get($key,$id);
-获取配置参数  ApolloConfig\ApolloConfig::get($key,$id);
-
 ```
+
 
 ```
     初始化
@@ -47,4 +80,10 @@
 
 ``` 
     env 的合并策略
+```
+
+
+```
+        处理　env 文件
+        
 ```
