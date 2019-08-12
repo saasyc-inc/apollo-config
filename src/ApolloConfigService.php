@@ -45,7 +45,7 @@ class ApolloConfigService
         $info = SimpleRequest::json_get($illumination, $complete_url);
 
         if ( !isset($info[ $key ])) {
-            throw new ConfigNotSettedException();
+            throw new ConfigNotSettedException($key,$config);
         }
         $val = $info[ $key ];
 

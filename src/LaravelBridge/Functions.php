@@ -16,4 +16,9 @@ class Functions
             sprintf('apollo.apollo.%s', $key)
         );
     }
+
+    public static function getFilePath()
+    {
+
+    }
 }

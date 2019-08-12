@@ -30,6 +30,24 @@ class ApolloConfigInit
 
         ApolloConfig::setConfig($config);
 
-        ApolloConfig::getAll();
+        $configs = ApolloConfig::getAll();
+
+        array_map(function ($config) {
+
+
+        }, $configs);
     }
+
+    public static function init()
+    {
+
+    }
+
+    public static function getAllEnvFileVariables()
+    {
+        $env_path = app()->environmentFilePath();
+
+    }
+
+
 }
