@@ -11,6 +11,7 @@ namespace ApolloConfig;
 
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
 use ApolloConfig\Configs\ApolloConfigConfigInterface;
+use ApolloConfig\Exceptions\ConfigNotSettedException;
 use ApolloConfig\LaravelBridge\Functions;
 use SimpleRequest\Exceptions\FailRequestException;
 use SimpleRequest\SimpleRequest;
@@ -21,7 +22,8 @@ class ApolloConfigService
     /**
      * @param $key
      * @param ApolloConfigConfigInterface|null $config
-     * @return array
+     * @return array|null|string
+     * @throws ConfigNotSettedException
      * @throws FailRequestException
      */
     public static function get($key, ApolloConfigConfigInterface $config = null)
@@ -42,13 +44,13 @@ class ApolloConfigService
 
         $info = SimpleRequest::json_get($illumination, $complete_url);
 
-        if(!isset($info[$key])){
-            
+        if ( !isset($info[ $key ])) {
+            throw new ConfigNotSettedException();
         }
         $val = $info[ $key ];
 
         self::cached($key, $config, $val);
-        
+
         return $val;
     }
 
@@ -73,6 +75,8 @@ class ApolloConfigService
     public static function cached($key, $config, $val)
     {
         $redis_key = self::getKey($key, $config);
+
+        UnifyRedis::set($redis_key, $val);
     }
 
     public static function getAll(ApolloConfigConfigInterface $config = null)

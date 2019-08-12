@@ -9,7 +9,9 @@
 namespace ApolloConfig;
 
 use ApolloConfig\Configs\ApolloConfigConfigInterface;
+use ApolloConfig\Exceptions\ConfigNotSettedException;
 use SimpleRequest\Exceptions\FailRequestException;
+use Throwable;
 
 class ApolloConfig
 {
@@ -17,7 +19,8 @@ class ApolloConfig
 
     /**
      * @param $key
-     * @return array
+     * @return array|null|string
+     * @throws Exceptions\ConfigNotSettedException
      * @throws FailRequestException
      */
     public static function get($key)
@@ -25,6 +28,20 @@ class ApolloConfig
         $config_setting = self::$config_setting;
 
         return ApolloConfigService::get($key, $config_setting);
+    }
+
+    /**
+     * @param $key
+     * @return array|null|string
+     * @throws FailRequestException
+     */
+    public static function getSilent($key)
+    {
+        try {
+            return self::get($key);
+        } catch (ConfigNotSettedException $exception) {
+            return null;
+        }
     }
 
     public static function setConfig(ApolloConfigConfigInterface $config)

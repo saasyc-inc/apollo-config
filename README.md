@@ -12,12 +12,21 @@
 
 ###  调用
 
+```
+
+    $info = ApolloConfig::get($key); //  yiche
+    
+    如果不希望抛出错误 希望对不存在的值 返回为 null 
+    则调用
+    
+```
 
 ``` 调用默认命名空间
 
     $key = 'creator';
         
     $info = ApolloConfig::get($key); //  yiche
+    
 ```
 
 
