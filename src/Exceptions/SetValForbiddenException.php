@@ -6,7 +6,7 @@
  * Time: 10:39 AM
  */
 
-namespace ApolloConfig\Exception;
+namespace ApolloConfig\Exceptions;
 
 class SetValForbiddenException extends ApolloException
 {

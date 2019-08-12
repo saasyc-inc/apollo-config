@@ -5,7 +5,7 @@
  * Date: 8/5/19
  * Time: 10:36 AM
  */
-namespace ApolloConfig\Exception;
+namespace ApolloConfig\Exceptions;
 
 use Exception;
 

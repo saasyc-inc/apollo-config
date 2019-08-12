@@ -12,6 +12,25 @@
 
 ###  调用
 
+
+``` 调用默认命名空间
+
+    $key = 'creator';
+        
+    $info = ApolloConfig::get($key); //  yiche
+```
+
+
+``` 调用默认命名空间
+
+    $key = 'creator';
+        
+           
+    $info = ApolloConfig::get($key); //  yiche
+```
+
+
+
 when init
  0. check had init
  1. read apollo config (url app_id app_key)

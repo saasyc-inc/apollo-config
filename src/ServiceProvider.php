@@ -49,7 +49,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             );
 
         $this->publishes([
-            $config_path => config_path('apollo.php'),
+            $config_path => config_path('apollo/apollo.php'),
         ]);
     }
 }

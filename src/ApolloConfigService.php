@@ -42,17 +42,16 @@ class ApolloConfigService
 
         $info = SimpleRequest::json_get($illumination, $complete_url);
 
+        if(!isset($info[$key])){
+            
+        }
         $val = $info[ $key ];
 
         self::cached($key, $config, $val);
+        
+        return $val;
     }
 
-    /**
-     * @param $key
-     * @param ApolloConfigConfigInterface $config
-     * @return array|null|string
-     * @throws \RedisException
-     */
     public static function getInCache($key, ApolloConfigConfigInterface $config)
     {
         $redis_key = self::getKey($key, $config);
@@ -74,8 +73,6 @@ class ApolloConfigService
     public static function cached($key, $config, $val)
     {
         $redis_key = self::getKey($key, $config);
-
-        UnifyRedis::set($redis_key,$val);
     }
 
     public static function getAll(ApolloConfigConfigInterface $config = null)

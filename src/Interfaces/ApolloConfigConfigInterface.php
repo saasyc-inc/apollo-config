@@ -12,4 +12,6 @@ namespace ApolloConfig\Configs;
 interface ApolloConfigConfigInterface
 {
     public function get_apollo_complete_url();
+
+    public function get_namespace();
 }
