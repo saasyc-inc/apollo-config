@@ -83,7 +83,15 @@ class ApolloConfigService
     {
         $redis_key = self::getKey($key, $config);
 
-        UnifyRedis::set($redis_key, $val);
+        //防止内存雪崩
+        $time = Functions::config('default_expired_time') - random_int(-60, 60);
+
+        if ($time < 0) {
+            $time = 1;
+        }
+
+        UnifyRedis::setEx($redis_key, $time, $val);
+
     }
 
     /**
