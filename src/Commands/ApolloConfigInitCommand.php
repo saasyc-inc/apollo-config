@@ -2,6 +2,7 @@
 
 namespace ApolloConfig\Commands;
 
+use ApolloConfig\Services\ApolloConfigInit;
 use Illuminate\Console\Command;
 
 class ApolloConfigInitCommand extends Command
@@ -37,6 +38,7 @@ class ApolloConfigInitCommand extends Command
      */
     public function handle()
     {
-
+        //这里是手动执行的命令所以不抛出异常
+        ApolloConfigInit::main();
     }
 }

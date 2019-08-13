@@ -9,7 +9,10 @@
 return [
     //主动更新 如果为true  则(目前)定时抓取 appolo 的配置 否则 也不接受更新(收到更新通知后不做处理 且不发轮询)
     //对历史项目建议为 false  避免误改动
-    'positive_update'               => false,
+    //是否追加
+    'env_override_by_apollo'        => false,
+    //是否覆盖
+    'env_append_by_apollo'          => false,
     //缓存信息临时目录
 //    'snap_dir'          => 'apollo',
     //默认的命名空间
@@ -27,4 +30,7 @@ return [
     'cached_key_prefix'             => 'apollo_key_prefix',
     //获取阿波罗配置请求说明
     'request_apollo_illumination'   => '请求配置中心',
+
+    //默认超时时间 默认一个月超时 单位是秒
+    'default_expired_time'          => 30*24*60*60,
 ];

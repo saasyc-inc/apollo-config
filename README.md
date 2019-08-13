@@ -10,11 +10,18 @@
 
 保证存储在　apollo 中namespace为env的信息同步到本地
 
-3. 定时更行配置 懒更新　只更新使用过的namespace
+3. 关于更新 不主动更新　在配置中设置超时时间
 
-###  初始化说明
+提供　命令　使得所有特定缓存失效　
 
 
+
+#### 初始化　
+
+    php artisan vendor:publish
+
+    然后在根据需要修改对应的文件　
+        config/apollo/apollo.php
 
 ###  调用说明
 
@@ -41,43 +48,6 @@
     $key = 'creator'; 
            
     $info = ApolloConfig::get($key); //  yiche
-```
-
-
-
-when init
- 0. check had init
- 1. read apollo config (url app_id app_key)
- 2. read env priviority
- (if apollo and env have same configs in order to not influence old env  u can give a higer priviority to env still think about this)
- 3. read config from apollo and write to config files
- 4. override env
- done
-
-
-when update
- 3. read config from apollo and write to config files
- 4. override env
-
-when read config
-    1. read from file
-    2. read from env
-    3. read from apollo (in order to get a new config in real time)
-
-when maintain config latest
-    1. crontab do update
-
-
-
-
-```
-    初始化
-    
-    提供的命令  php artisan write_to_cache  将redis 中的数据存放于
-    
-    提供的命令  php artisan sync_env 将 apollo 中关于 env 的配置信息同步到 
-    
-    应该 可以配置 是否可以动态更新配置
 ```
 
 

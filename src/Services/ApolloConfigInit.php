@@ -11,6 +11,7 @@ namespace ApolloConfig\Services;
 
 use ApolloConfig\ApolloConfig;
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
+use ApolloConfig\LaravelBridge\Functions;
 use CharacterUtil\UnVisibleCharacterFilter;
 use SimpleRequest\Exceptions\FailRequestException;
 
@@ -50,7 +51,21 @@ class ApolloConfigInit
             $env_keys_in_apollo, $exist_keys_in_env
         );
 
-        self::append_env_variables($env_file_path, $diff, $env_variables_in_apollo);
+        $override_key = 'env_override_by_apollo';
+
+        $override_config = Functions::config($override_key);
+
+        if ($override_config) {
+            self::modify_env_variables($env_file_path, $env_variables_in_apollo);
+        }
+
+        $append_key = 'env_append_by_apollo';
+
+        $append_config = Functions::config($append_key);
+
+        if ($append_config) {
+            self::append_env_variables($env_file_path, $diff, $env_variables_in_apollo);
+        }
 
     }
 
@@ -108,17 +123,11 @@ class ApolloConfigInit
         }, $diffs);
     }
 
-    public function modify($env_path)
+    public static function modify_env_variables($env_file_path, array $env_variables_in_apollo)
     {
-        $all_configs = [];
+        $handle = fopen($env_file_path, 'rb+');
 
-        $str = '';
-
-        $info = explode('=', $str);
-
-        $env_path = app()->environmentFilePath();
-
-        $handle = fopen($env_path, 'rb+');
+        $replaces = [];
 
         while ( !feof($handle)) {
 
@@ -126,14 +135,41 @@ class ApolloConfigInit
 
             if ( !empty(trim($line))) {
 
-                $line = $this->handle_one_line($line);
+                $info = self::handle_one_line($line);
 
-                fwrite($handle, $line);
+                if (
+                    $info[ 'val' ] !== $env_variables_in_apollo[ $info[ 'key' ] ]
+                ) {
+
+                    $new_line = sprintf("%s=%s\r\n", $info[ 'key' ], $info[ 'val' ]);
+
+                    $replaces[] = [
+                        'old' => $line,
+                        'new' => $new_line,
+                    ];
+                }
             }
 
         }
 
         fclose($handle);
+
+
+        array_map(function ($replace) use ($env_file_path) {
+
+            [
+                'old' => $old,
+                'new' => $new,
+            ] = $replace;
+
+            $content = file_get_contents($env_file_path);
+
+            $new_content = str_replace($old, $new, $content);
+
+            file_put_contents($env_file_path, $new_content);
+
+        }, $replaces);
+
     }
 
     public static function handle_one_line($line)
@@ -152,22 +188,15 @@ class ApolloConfigInit
         //值里面可能包含　=
         $key = array_shift($info);
 
-        $val = mb_substr($line, mb_strlen($key));
+        //　+1 的原因是　中间还有个　=
+        $len = mb_strlen($key) + 1;
+
+        $val = mb_substr($line, $len);
 
         return [
             'key' => $key,
             'val' => $val,
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function append($filename, $data_set)
-    {
-        array_map(function ($data) use ($filename) {
-            file_put_contents($filename, $data, FILE_APPEND);
-        }, $data_set);
     }
 
 }
