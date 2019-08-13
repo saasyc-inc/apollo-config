@@ -28,8 +28,6 @@ class ApolloConfigService
      */
     public static function get($key, ApolloConfigConfigInterface $config = null)
     {
-        $illumination = Functions::config('request_apollo_illumination');
-
         if ($config === null) {
             $config = ApolloConfigConfigFactory::getDefaultConfig();
         }
@@ -40,12 +38,10 @@ class ApolloConfigService
             return $config_val;
         }
 
-        $complete_url = $config->get_apollo_complete_url();
-
-        $info = SimpleRequest::json_get($illumination, $complete_url);
+        $info = self::getAll($config);
 
         if ( !isset($info[ $key ])) {
-            throw new ConfigNotSettedException($key,$config);
+            throw new ConfigNotSettedException($key, $config);
         }
         $val = $info[ $key ];
 
@@ -79,8 +75,18 @@ class ApolloConfigService
         UnifyRedis::set($redis_key, $val);
     }
 
-    public static function getAll(ApolloConfigConfigInterface $config = null)
+    /**
+     * @param ApolloConfigConfigInterface|null $config
+     * @return array
+     * @throws FailRequestException
+     */
+    public static function getAll(ApolloConfigConfigInterface $config)
     {
-        return [];
+        $illumination = Functions::config('request_apollo_illumination');
+
+        $complete_url = $config->get_apollo_complete_url();
+
+        return SimpleRequest::json_get($illumination, $complete_url);
     }
 }
+

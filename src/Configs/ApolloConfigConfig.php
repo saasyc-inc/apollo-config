@@ -9,6 +9,7 @@
 namespace ApolloConfig\Configs;
 
 
+use ApolloConfig\Interfaces\ApolloConfigConfigInterface;
 use ApolloConfig\LaravelBridge\Functions;
 
 class ApolloConfigConfig implements ApolloConfigConfigInterface

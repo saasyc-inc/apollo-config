@@ -6,8 +6,7 @@
  * Time: 2:21 AM
  */
 
-namespace ApolloConfig\Configs;
-
+namespace ApolloConfig\Interfaces;
 
 interface ApolloConfigConfigInterface
 {

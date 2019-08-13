@@ -8,6 +8,7 @@
 
 namespace ApolloConfig;
 
+use ApolloConfig\Commands\ApolloConfigInitCommand;
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -15,6 +16,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $defer = true;
 
     const alias = 'ApolloConfig';
+    
+    protected $commands = [
+        ApolloConfigInitCommand::class
+    ];
 
     public function register()
     {
@@ -26,6 +31,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $alias = self::alias;
 
         $this->app->alias(ApolloConfig::class, $alias);
+        
+        $this->commands($this->commands);
     }
 
     public function provides()
@@ -52,4 +59,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $config_path => config_path('apollo/apollo.php'),
         ]);
     }
+
+    protected function registerCommands()
+    {
+//        $this->registerInstallCommand();
+        $this->commands('command.eternaltree.install');
+    }
+
+
 }

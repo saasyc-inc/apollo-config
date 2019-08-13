@@ -8,7 +8,9 @@
 
 namespace ApolloConfig\Exceptions;
 
-use ApolloConfig\Configs\ApolloConfigConfigInterface;
+
+
+use ApolloConfig\Interfaces\ApolloConfigConfigInterface;
 
 class ConfigNotSettedException extends ApolloException
 {

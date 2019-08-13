@@ -31,4 +31,15 @@ class ApolloConfigConfigFactory
     }
 
 
+    /**
+     * @return ApolloConfigConfig
+     */
+    public static function getByNamespace($namespace)
+    {
+        return new ApolloConfigConfig(
+            $namespace
+        );
+    }
+
+
 }

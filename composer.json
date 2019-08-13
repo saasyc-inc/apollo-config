@@ -11,7 +11,8 @@
     "require": {
         "yiche/json-to-arr-str":"2.0.0",
         "yiche/simple-request": "dev-master",
-        "yiche/unify-redis": "dev-master"
+        "yiche/unify-redis": "dev-master",
+        "yiche/character-util": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -39,7 +40,15 @@
             "options": {
                 "symlink": true
             }
+        },
+        "5": {
+            "type": "path",
+            "url": "/home/wwwroot/personal-repository/unvisible-character-filter",
+            "options": {
+                "symlink": true
+            }
         }
+        
     },
     "minimum-stability":"dev"
 }
