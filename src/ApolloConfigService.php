@@ -94,6 +94,21 @@ class ApolloConfigService
 
     }
 
+    public static function expired($key, $config)
+    {
+        $redis_key = self::getKey($key, $config);
+
+        //防止内存雪崩
+        $time = Functions::config('default_expired_time') - random_int(-60, 60);
+
+        if ($time < 0) {
+            $time = 1;
+        }
+
+        UnifyRedis::setEx($redis_key, $time, $val);
+
+    }
+
     /**
      * @param ApolloConfigConfigInterface|null $config
      * @return array

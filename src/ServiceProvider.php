@@ -8,6 +8,7 @@
 
 namespace ApolloConfig;
 
+use ApolloConfig\Commands\ApolloConfigCacheExpireCommand;
 use ApolloConfig\Commands\ApolloConfigInitCommand;
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
 
@@ -16,9 +17,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $defer = true;
 
     const alias = 'ApolloConfig';
-    
+
     protected $commands = [
-        ApolloConfigInitCommand::class
+        ApolloConfigInitCommand::class,
+        ApolloConfigCacheExpireCommand::class,
     ];
 
     public function register()
@@ -31,7 +33,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $alias = self::alias;
 
         $this->app->alias(ApolloConfig::class, $alias);
-        
+
         $this->commands($this->commands);
     }
 
