@@ -14,7 +14,7 @@
 
 提供　命令　使得所有特定缓存失效　
 
-
+php artisan  yiche:ApolloConfigCacheExpireCommand default key_name
 
 #### 初始化　
 
