@@ -13,7 +13,6 @@
         "yiche/simple-request": "dev-master",
         "yiche/unify-redis": "dev-master",
         "yiche/character-util": "dev-master",
-        "ext-redis": "*",
         "ext-mbstring": "*"
     },
     "autoload": {
