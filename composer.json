@@ -12,7 +12,8 @@
         "yiche/json-to-arr-str":"2.0.0",
         "yiche/simple-request": "dev-master",
         "yiche/unify-redis": "dev-master",
-        "yiche/character-util": "dev-master"
+        "yiche/character-util": "dev-master",
+        "ext-redis": "*"
     },
     "autoload": {
         "psr-4": {

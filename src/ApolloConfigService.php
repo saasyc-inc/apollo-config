@@ -10,8 +10,8 @@ namespace ApolloConfig;
 
 
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
-use ApolloConfig\Configs\ApolloConfigConfigInterface;
 use ApolloConfig\Exceptions\ConfigNotSettedException;
+use ApolloConfig\Interfaces\ApolloConfigConfigInterface;
 use ApolloConfig\LaravelBridge\Functions;
 use SimpleRequest\Exceptions\FailRequestException;
 use SimpleRequest\SimpleRequest;
@@ -25,6 +25,7 @@ class ApolloConfigService
      * @return array|null|string
      * @throws ConfigNotSettedException
      * @throws FailRequestException
+     * @throws \RedisException
      */
     public static function get($key, ApolloConfigConfigInterface $config = null)
     {
@@ -50,6 +51,12 @@ class ApolloConfigService
         return $val;
     }
 
+    /**
+     * @param $key
+     * @param ApolloConfigConfigInterface $config
+     * @return array|null|string
+     * @throws \RedisException
+     */
     public static function getInCache($key, ApolloConfigConfigInterface $config)
     {
         $redis_key = self::getKey($key, $config);
@@ -57,6 +64,10 @@ class ApolloConfigService
         return UnifyRedis::get($redis_key);
     }
 
+    /**
+     * @param string $key
+     * @return string
+     */
     public static function getKey(string $key, ApolloConfigConfigInterface $config)
     {
         $apollo_key_prefix = Functions::config('cached_key_prefix');

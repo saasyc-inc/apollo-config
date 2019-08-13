@@ -9,11 +9,9 @@
 namespace ApolloConfig;
 
 use ApolloConfig\Configs\ApolloConfigConfigFactory;
-use ApolloConfig\Configs\ApolloConfigConfigInterface;
 use ApolloConfig\Exceptions\ConfigNotSettedException;
-use SebastianBergmann\FileIterator\Facade;
+use ApolloConfig\Interfaces\ApolloConfigConfigInterface;
 use SimpleRequest\Exceptions\FailRequestException;
-use Throwable;
 
 class ApolloConfig
 {
@@ -24,6 +22,7 @@ class ApolloConfig
      * @return array|null|string
      * @throws Exceptions\ConfigNotSettedException
      * @throws FailRequestException
+     * @throws \RedisException
      */
     public static function get($key, $namespace = null)
     {
@@ -36,11 +35,16 @@ class ApolloConfig
         return ApolloConfigService::get($key, $config_setting);
     }
 
+    /**
+     * @param null $namespace
+     * @return array
+     * @throws FailRequestException
+     */
     public static function getAllOfCertainNamespace($namespace = null)
     {
         $config_setting = self::$config_setting;
 
-        if($namespace){
+        if($namespace || empty($config_setting)){
             $config_setting = ApolloConfigConfigFactory::getByNamespace($namespace);
         }
 
@@ -51,6 +55,7 @@ class ApolloConfig
      * @param $key
      * @return array|null|string
      * @throws FailRequestException
+     * @throws \RedisException
      */
     public static function getSilent($key,$namespace = null)
     {
@@ -66,10 +71,12 @@ class ApolloConfig
         self::$config_setting = $config;
     }
 
+    /**
+     * @return array
+     * @throws FailRequestException
+     */
     public static function getAll()
     {
-        $namespace = null;
-
-        return self::getAllOfCertainNamespace($namespace);
+        return self::getAllOfCertainNamespace();
     }
 }

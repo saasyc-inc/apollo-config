@@ -1,4 +1,6 @@
 ## 为携程 Apollo 配置中心写的 laravel 客户端
+ 
+依赖了　redis 扩展
 
 ###  需求说明
 
