@@ -44,7 +44,7 @@ class ApolloConfigInit
             self::$env_file_path
         );
 
-        $env_keys_in_apollo = array_keys($exist_keys_in_env);
+        $env_keys_in_apollo = array_keys($env_variables_in_apollo);
 
         $diff = array_diff(
             $env_keys_in_apollo, $exist_keys_in_env
@@ -86,7 +86,7 @@ class ApolloConfigInit
                 $line = self::handle_one_line($line);
 
                 if ( !empty($line)) {
-                    $return_keys[] = $line[ 'val' ];
+                    $return_keys[] = $line[ 'key' ];
                 }
 
             }
@@ -102,7 +102,7 @@ class ApolloConfigInit
     {
         array_map(function ($diff) use ($env_file_path, $env_variables_in_apollo) {
             $line_info = sprintf(
-                "%s=%s", $diff, $env_variables_in_apollo[ $diff ]
+                "%s=%s\r\n", $diff, $env_variables_in_apollo[ $diff ]
             );
             file_put_contents($env_file_path, $line_info, FILE_APPEND);
         }, $diffs);
@@ -143,13 +143,20 @@ class ApolloConfigInit
         $info = explode('=', $line);
 
         //如果不是 2 则有问题　原因返回
-        if (count($info) !== 2) {
+        if (count($info) < 2) {
             return [];
         }
 
+
+        //不直接取　0 和　1　原因是
+        //值里面可能包含　=
+        $key = array_shift($info);
+
+        $val = mb_substr($line, mb_strlen($key));
+
         return [
-            'key' => $info[ 0 ],
-            'val' => $info[ 1 ],
+            'key' => $key,
+            'val' => $val,
         ];
     }
 
