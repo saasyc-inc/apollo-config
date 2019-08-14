@@ -17,8 +17,4 @@ class Functions
         );
     }
 
-    public static function getFilePath()
-    {
-
-    }
 }
